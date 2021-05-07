@@ -1,11 +1,15 @@
 FROM php:7.4-apache
 
 RUN apt-get update && apt-get install -y cron git-core jq unzip vim zip \
-  libjpeg-dev libpng-dev libpq-dev libsqlite3-dev libwebp-dev libzip-dev php7.4-redis && \
+  libjpeg-dev libpng-dev libpq-dev libsqlite3-dev libwebp-dev libzip-dev && \
   rm -rf /var/lib/apt/lists/* && \
   docker-php-ext-configure zip --with-zip && \
   docker-php-ext-configure gd --with-jpeg --with-webp && \
   docker-php-ext-install exif gd mysqli opcache pdo_pgsql pdo_mysql zip
+
+RUN pecl install -o -f redis \
+&&  rm -rf /tmp/pear \
+&&  docker-php-ext-enable redis
 
 RUN { \
     echo 'opcache.memory_consumption=128'; \
