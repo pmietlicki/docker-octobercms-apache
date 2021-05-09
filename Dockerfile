@@ -46,13 +46,10 @@ RUN git clone https://github.com/octobercms/october.git -b $OCTOBERCMS_TAG --dep
   egrep -o "['\"]october\/[rain|system|backend|cms]*['\"]\s*:\s*['\"](.+?)['\"]" composer.json && \
   composer install --no-interaction --prefer-dist --no-scripts && \
   composer clearcache && \
-  git status && git checkout modules/. && \
   rm -rf .git && \
   echo 'APP_ENV=docker' > .env && \
   touch storage/database.sqlite && \
   chmod 666 storage/database.sqlite && \
-  php artisan october:up && \
-  php artisan plugin:install october.drivers && \
   chown -R www-data:www-data /var/www/html && \
   find . -type d \( -path './plugins' -or  -path './storage' -or  -path './themes' -or  -path './plugins/*' -or  -path './storage/*' -or  -path './themes/*' \) -exec chmod g+ws {} \;
 
