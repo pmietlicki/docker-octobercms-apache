@@ -65,6 +65,7 @@ RUN echo 'exec php artisan "$@"' > /usr/local/bin/artisan && \
   chmod +x /usr/local/bin/artisan /usr/local/bin/tinker /usr/local/bin/october
 
 COPY docker-oc-entrypoint /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-oc-entrypoint
 
 ENTRYPOINT ["docker-oc-entrypoint"]
 CMD ["apache2-foreground"]
