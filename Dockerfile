@@ -35,13 +35,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- --1 --install-dir=/usr/l
 
 RUN a2enmod rewrite
 
-ENV OCTOBERCMS_TAG v1.1.5
+ENV OCTOBERCMS1_TAG v1.1.5
+ENV OCTOBERCMS2_TAG v2.0.10
 ENV DB_CONNECTION sqlite
 ENV DB_DATABASE storage/database.sqlite
 
 RUN git clone https://github.com/octobercms/october.git -b $OCTOBERCMS_TAG --depth 1 . && \
   echo "Update composer.json: Set explicit build references for october module dependencies" && \
-  sed -i.orig "s/\(\"october\/\([rain|system|backend|cms]*\)\": \"\(1.1.*\)\"\)/\"october\/\2\": \"<=${OCTOBERCMS_TAG#v}\"/g" composer.json && \
+  sed -i.orig "s/\(\"october\/\([rain|system|backend|cms]*\)\": \"\(1.1.*\)\"\)/\"october\/\2\": \"<=${OCTOBERCMS2_TAG#v}\"/g" composer.json && \
   egrep -o "['\"]october\/[rain|system|backend|cms]*['\"]\s*:\s*['\"](.+?)['\"]" composer.json && \
   composer install --no-interaction --prefer-dist --no-scripts && \
   composer clearcache && \
